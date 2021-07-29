@@ -6,28 +6,32 @@ with open('reviews.txt', 'r') as f:
 		data.append(line)
 		sum_len += len(data[count])
 		count += 1 # count = count + 1
-		#if count % 1000 == 0:
-		#	print(len(data))
-
+		
 avg_len = sum_len / len(data) 
 print('檔案讀取完成! 總共有', len(data), '筆資料')
 print('平均留言長度為：',avg_len)
+print(data[0])
 
-new = []
-new_2 = []
+wc = {}	#word_conut
+sw = '.:!~-#@$%^&*()+'
 for d in data:
-	if len(d) < 100:
-		new.append(d)
-	elif len(d) < avg_len:
-		new_2.append(d)
-
-print('留言長度小於100的留言有', len(new), '筆')
-print('留言長度大於100,小於平均值的留言', len(new_2), '筆')
-print(new[0])
-print('-----------')
-print(new_2[0])
-
-
-
-
-
+	words = d.lower().strip().split()
+	for word in words:
+		#移除特殊字元
+		for s_w in sw:
+			if s_w in word:
+				word = word.replace(s_w,'')
+		if word in wc:
+			wc[word] += 1
+		else:
+			wc[word] = 1
+while True:
+	word = input('請輸入想查詢的文字：')
+	wordlower = word.lower()
+	if word == 'qq123':
+		print('感謝使用本功能~')
+		break
+	if wordlower in wc:
+		print('"', word, '"出現過', wc[wordlower], '次')
+	else:
+		print('"', word, '"此文字沒有出現過!')
